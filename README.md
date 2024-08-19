@@ -1,4 +1,4 @@
-# Verifikacija-softvera
+# 2023_Analysis_2048
 
 Testiranje konzolne C++ aplikacije [2048](https://github.com/HadesD/2048).
 # Korišćeni alati:
