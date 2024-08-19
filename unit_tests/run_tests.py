@@ -36,12 +36,13 @@ def run_test(executable):
 def main():
     test_files = [
         "tests/test_init.cpp",
+        "tests/test_drawBoard.cpp",
         "tests/test_moving_up.cpp",
         "tests/test_moving_down.cpp",
         "tests/test_moving_left.cpp",
         "tests/test_moving_right.cpp",
-        "tests/test_finish.cpp",
-        "tests/test_drawBoard.cpp"
+        "tests/test_points.cpp",
+        "tests/test_finish.cpp"
     ]
 
     for test_file in test_files:
