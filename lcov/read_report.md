@@ -1,4 +1,3 @@
-For tests coverage report run:
-lcov --list coverage.info
-
-For detailed coverage open out/index.html
+# Tests coverage report
+- Run: lcov --list coverage.info
+- For a detailed coverage report: open out/index.html in your browser
