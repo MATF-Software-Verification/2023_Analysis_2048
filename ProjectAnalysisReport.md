@@ -6,7 +6,7 @@ Ovde će biti prikazan detaljan izveštaj o analizi konzolne C++ igre 2048. Proj
 - [valgrind](##3.Profajliranje%pomoću%alata%Valgrind) - profajliranje
   - [massif](##3.1.%Profajliranje%pomoću%alata%Massif),
   - [callgrind](##3.2.%Profajliranje%pomoću%alata%Callgrind),
-- [cppcheck](##4.%Statička%analiza%pomoću%alata%Cppcheck) - statička analiza
+- [cppcheck](##4-statička-analiza-pomoću-alata-cppcheck) - statička analiza
 
 ## 1. Testiranje jedinica koda pomoću alata Catch2
 Testiranje jedinica koda (unit testing) je tehnika kojom se proverava funkcionisanje delova sistema koji se mogu nezavisno testirati. *Catch2* je framework za testiranje u C++ koji je jednostavan za korišćenje i veoma moćan. Omogućava pisanje testova u čistom C++ jeziku, koristeći čitljivu sintaksu. Testovi se pišu kao *.cpp* datoteke koristeći zaglavlje [catch.hpp](unit_tests/tests/catch.hpp). <br/>
