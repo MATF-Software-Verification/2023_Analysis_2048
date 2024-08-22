@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="2.7"/>
+    <errors>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Game::m_key&apos; is not initialized in the constructor." verbose="Member variable &apos;Game::m_key&apos; is not initialized in the constructor." cwe="398" file0="../2048/src/Game.cpp">
+            <location file="../2048/src/Game.cpp" line="7" column="7"/>
+            <symbol>Game::m_key</symbol>
+        </error>
+        <error id="functionStatic" severity="performance" msg="Technically the member function &apos;Game::drawHBarrier&apos; can be static (but you may consider moving to unnamed namespace)." verbose="The member function &apos;Game::drawHBarrier&apos; can be made a static function. Making a function static can bring a performance benefit since no &apos;this&apos; instance is passed to the function. This change should not cause compiler errors but it does not necessarily make sense conceptually. Think about your design and the task of the function first - is it a function that must not access members of class instances? And maybe it is more appropriate to move this function to a unnamed namespace." cwe="398" inconclusive="true" file0="../2048/src/Game.cpp">
+            <location file="../2048/app/Game.hpp" line="18" column="10"/>
+            <location file="../2048/src/Game.cpp" line="41" column="12"/>
+            <symbol>Game::drawHBarrier</symbol>
+        </error>
+        <error id="functionConst" severity="style" msg="Technically the member function &apos;Game::update&apos; can be const." verbose="The member function &apos;Game::update&apos; can be made a const function. Making this function &apos;const&apos; should not cause compiler errors. Even though the function can be made const function technically it may not make sense conceptually. Think about your design and the task of the function first - is it a function that must not change object internal state?" cwe="398" inconclusive="true" file0="../2048/src/Game.cpp">
+            <location file="../2048/app/Game.hpp" line="20" column="10"/>
+            <location file="../2048/src/Game.cpp" line="125" column="12"/>
+            <symbol>Game::update</symbol>
+        </error>
+        <error id="functionStatic" severity="performance" msg="Technically the member function &apos;Game::fillRandPos&apos; can be static (but you may consider moving to unnamed namespace)." verbose="The member function &apos;Game::fillRandPos&apos; can be made a static function. Making a function static can bring a performance benefit since no &apos;this&apos; instance is passed to the function. This change should not cause compiler errors but it does not necessarily make sense conceptually. Think about your design and the task of the function first - is it a function that must not access members of class instances? And maybe it is more appropriate to move this function to a unnamed namespace." cwe="398" inconclusive="true" file0="../2048/src/Game.cpp">
+            <location file="../2048/app/Game.hpp" line="21" column="10"/>
+            <location file="../2048/src/Game.cpp" line="166" column="12"/>
+            <symbol>Game::fillRandPos</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;KeyPushManager&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;KeyPushManager&apos; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." cwe="398" file0="../2048/src/Game.cpp">
+            <location file="../2048/app/KeyPushManager.hpp" line="9" column="5"/>
+            <symbol>KeyPushManager</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;gb&apos; should be passed by const reference." verbose="Parameter &apos;gb&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../2048/src/Game.cpp">
+            <location file="../2048/src/Game.cpp" line="206" column="41"/>
+            <symbol>gb</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;KeyPushManager::m_key&apos; is not initialized in the constructor." verbose="Member variable &apos;KeyPushManager::m_key&apos; is not initialized in the constructor." cwe="398" file0="../2048/src/KeyPushManager.cpp">
+            <location file="../2048/src/KeyPushManager.cpp" line="3" column="17"/>
+            <symbol>KeyPushManager::m_key</symbol>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;KeyPushManager::m_isGameBoardMoved&apos; is not initialized in the constructor." verbose="Member variable &apos;KeyPushManager::m_isGameBoardMoved&apos; is not initialized in the constructor." cwe="398" file0="../2048/src/KeyPushManager.cpp">
+            <location file="../2048/src/KeyPushManager.cpp" line="3" column="17"/>
+            <symbol>KeyPushManager::m_isGameBoardMoved</symbol>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;gb&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;gb&apos; a value by passing the value to the constructor in the initialization list." cwe="398" file0="../2048/src/KeyPushManager.cpp">
+            <location file="../2048/src/KeyPushManager.cpp" line="5" column="3"/>
+            <symbol>gb</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;kbhit&apos; is never used." verbose="The function &apos;kbhit&apos; is never used." cwe="561">
+            <location file="../2048/src/Kbhit.cpp" line="22" column="0"/>
+            <symbol>kbhit</symbol>
+        </error>
+    </errors>
+</results>

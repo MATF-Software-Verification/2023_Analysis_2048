@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="2.7"/>
+    <errors>
+        <error id="functionConst" severity="style" msg="Technically the member function &apos;Game::update&apos; can be const." verbose="The member function &apos;Game::update&apos; can be made a const function. Making this function &apos;const&apos; should not cause compiler errors. Even though the function can be made const function technically it may not make sense conceptually. Think about your design and the task of the function first - is it a function that must not change object internal state?" cwe="398" inconclusive="true" file0="../2048_improved/src/Game.cpp">
+            <location file="../2048_improved/app/Game.hpp" line="20" column="10"/>
+            <location file="../2048_improved/src/Game.cpp" line="126" column="12"/>
+            <symbol>Game::update</symbol>
+        </error>
+    </errors>
+</results>
