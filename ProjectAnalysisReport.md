@@ -16,7 +16,8 @@ Za reprodukovanje testova potrebno je pokrenuti python script [run_tests.py](uni
 Za potrebe testiranja programa, neki delovi koda su refaktorisani. Napravljene izmene se mogu videti u fajlu [custom.patch](custom.patch)
 
 ### 1.1. Inicijalizovanje table
-Na početku igre, tabla se inicijalizuje tako da su popunjena samo dva polja(vrednostima 2 ili 4), koja se mogu naći na random pozicijama. Ostala polja moraju biti prazna(tj. imati vrednost 0). Ovo je testirano oslanjajući se na činjenicu da je tabla nepromenljive veličine, pa ima određen broj polja n. Potrebno je da tabla na n-2 polja ima 0, a na samo 2 polja vrednosti 2 ili 4.   
+Na početku igre, tabla se inicijalizuje tako da su popunjena samo dva polja(vrednostima 2 ili 4), koja se mogu naći na random pozicijama. Ostala polja moraju biti prazna(tj. imati vrednost 0). Ovo je testirano oslanjajući se na činjenicu da je tabla nepromenljive veličine, pa ima određen broj polja n. Potrebno je da tabla na n-2 polja ima 0, a na samo 2 polja vrednosti 2 ili 4. <br/>
+Na slici ispod je prikazana ispravno inicijalizovana tabla. <br/>
 ![Screenshot from 2024-08-19 16-55-02](https://github.com/user-attachments/assets/dc02c0a5-8f92-4414-b858-f97b5f2dd7df) <br/>
 Prolaznost testova je 100%, pa je ova funkcionalnost uspešno implementirana. 
 
@@ -33,7 +34,7 @@ Naredni test obuhvata proveru da li se polja kreću u željenom smeru nakon zada
 ### 1.4. Pomeranje i spajanje polja
 Ova funkcionalnost predstavlja srž igre. Polja, tj. brojevi na tabli se pomeraju u onom smeru koji korisnik zatraži unosom s tastature(wasd ili hjkl). Nakon toga se polja sa istim vrednostima spajaju, tj. sabiraju na određeni način tako da se na tabli pojavljuju samo brojevi 2,4,8,16...
 Nakon pomeranja, na tablu se dodaje jos jedan broj(2 ili 4) na random mesto. <br/>
-Kako je funkcionalnost dodavanja broja na random poziciju proverena u testu inicijalizacije table, i jer bi otežala testiranje pomeranja i spajanja, bilo je potrebno refaktorisati kod tako da je moguće proveriti samo pomeranje i spajanje, nezavisno od dodavanja broja. Izmene su napravljene u [KeyPushManager.cpp](https://github.com/HadesD/2048/blob/a788215bdd9d775579da0901db383b2ed09a0985/src/KeyPushManager.cpp). Dodata je funkcija ```onKeyboardHitRefactored()```, i izmenjene su funkcije ```waitOnKey()``` i ```onKeyboardHit()```, tako da se funkcionalnost koda ne menja. U testovima je korišćena funkcija ```onKeyBoardHit()``` koja je promenjena tako da ne menja konačnu tablu, dok je to dadato u ```onKeyboardHitRefactored()```. Takodje, dodat je metod za dohvatanje izmenjene table pre dodavanja random broja ```getGameBoard()```.
+Kako je funkcionalnost dodavanja broja na random poziciju proverena u testu inicijalizacije table, i jer bi otežala testiranje pomeranja i spajanja, bilo je potrebno refaktorisati kod tako da je moguće proveriti samo pomeranje i spajanje, nezavisno od dodavanja broja. Izmene su napravljene u [KeyPushManager.cpp](https://github.com/HadesD/2048/blob/a788215bdd9d775579da0901db383b2ed09a0985/src/KeyPushManager.cpp). Dodata je funkcija ```onKeyboardHitRefactored()```, i izmenjene su funkcije ```waitOnKey()``` i ```onKeyboardHit()```, tako da se funkcionalnost koda ne menja. U testovima je korišćena funkcija ```onKeyBoardHit()``` koja je promenjena tako da ne menja konačnu tablu, dok je to dadato u ```onKeyboardHitRefactored()```. Takodje, dodat je metod za dohvatanje izmenjene table pre dodavanja random broja ```getGameBoard()``` (videti promene u [custom.patch](custom.patch)).
 
 Polja se mogu pomerati u četiri smera, pa su na taj način i testovi podeljeni. Testovi proveravaju ispravnost smera kretanja, Kako je već prethodnih testom proverena ispravnost unosa, ovde je radi jendostavnosti dodat metod za eksplicitno postavljanje slova koje označava smer ```setMKey()```. Pored provere ispravnosti smera, testovi proveravaju i razne slučajeve pomeranja i spajanja polja, kao što su postojanje praznih redova i kolona, slučajeva kada jeste ili nije moguće spojiti neka polja, kada postoje višestruka spajanja i kada nije moguće pomerati polja.
 
@@ -71,11 +72,12 @@ genhtml coverage.info --output-direcotory out
 ```
 Nakon toga je samo potrebno otvoriti ```.html``` fajl, koji se nalazi na putanji [out/index.html](lcov/out/index.html).
 
-Za projekat 2048 testiran jediničnim testovima prikazanim u pretnodnom odeljku, ukupan procenat pokrivenosti koda testovima je ```94.7%```(231/244) za linije, i ```96.7%```(29/30) za funkcije. 
+Za projekat 2048 testiran jediničnim testovima prikazanim u pretnodnom odeljku, ukupan procenat pokrivenosti koda testovima je 94.7% (231/244) za linije, i 96.7% (29/30) za funkcije. 
 
 ![image](https://github.com/user-attachments/assets/dbb9adb5-c137-4a8d-9ef9-9dd7cf505fb1)
 
-Funkcija koja nije pokrivena testovima je funkcija ```kbhit()``` iz klase Kbhit. Razlog tome je što se ova funkcija ne poziva nigde u kodu, tako da nije potrebna. Ovo povlači neiskorišćenost još jednog dela programa, a to je if grananje u funkciji ```getch()``` iz iste klase: ```if(peek_character != -1){...}```. Program nikad ne ulazi u ovu granu jer ```peek_character``` može biti ```!= -1``` jedino ako je prethodno postavljen na ch unutar funkcije ```kbhit()```. Pokrivenost klase ```Kbhit``` i njenih funkcija je prikazan na sledećoj slici, koja predstavlja deo prethodno pomenutog ```html``` izveštaja. 
+Funkcija koja nije pokrivena testovima je funkcija ```kbhit()``` iz klase Kbhit. Razlog tome je što se ova funkcija ne poziva nigde u kodu, tako da nije potrebna. Ovo povlači neiskorišćenost još jednog dela programa, a to je *if* grananje u funkciji ```getch()``` iz iste klase: <br/>
+```if(peek_character != -1){...}```. Program nikad ne ulazi u ovu granu jer ```peek_character``` može biti ```!= -1``` jedino ako je prethodno postavljen na ```ch``` unutar funkcije ```kbhit()```. Pokrivenost klase ```Kbhit``` i njenih funkcija je prikazan na sledećoj slici, koja predstavlja deo prethodno pomenutog ```.html``` izveštaja. 
 ![Screenshot from 2024-08-21 15-03-23](https://github.com/user-attachments/assets/fce91393-25f0-4d7a-9a59-15df45af01a8)
 
 ## 3. Profajliranje pomoću alata Valgrind
@@ -90,13 +92,13 @@ vagrind --tool=massif --massif-out-file=massif.out ./2048
 ```bash
 ms_print massif.out
 ```
-Tokom analize ovog projekta, *Massif* je pokrenut nekoliko puta, nakon čega su dobijene konzistentni rezultati. 
+Tokom analize ovog projekta, Massif je pokrenut nekoliko puta, nakon čega su dobijene konzistentni rezultati. 
 
 Prethodno pomenuti graf prikazuje raspodelu korišćenja memorije na hipu tokom vremena. x-osa predstavlja vreme izraženo u broju instrukcija(Mi), a y-osa ukupnu količinu memorije na hipu zauzetu u određenom trenutku(KB). 
 
 ![Screenshot from 2024-08-21 20-51-541](https://github.com/user-attachments/assets/172b19bc-35f7-46e8-84f2-4bdd012252fa)
 
-Trenuci koji su posebno obeleženi predstavljaju preseke stanja za koje je dat detaljniji izveštaj. Graf nam govori da je tokom rada programa zauzeće memorije uglavnom ravnomerno, bez prevelikih odstupanja. Peak je trenutak u kome je zabeležena najviša potrošnja memorije. Upoređivanjem preseka rezultata može se primetiti da ovaj broj ostaje isti - ```74664B``` i pojavljuje se u okvirno istom trenutku, pri početku rada programa(u drugom, trećem preseku), oko ```2.56Mi```. U nastavku izveštaja su prikazani podaci o potrošnji memorije za svaki presek, gde je u procentima prikazano korišćenje memorije od strane određenih funkcija. Najviše memorije(oko 97%) se koristi za inicijalizovanje biblioteka(```dl-init```), dok mali procenat od oko 1,3% alocira metod klase ```Game``` za crtanje table ```drawGameBoard()```, koji poziva funkcije za rad sa izlaznim tokom podataka, kao što je ```fwrite```. Na sledećoj slici je prikazan jedan deo ovog izveštaja.
+Trenuci koji su posebno obeleženi predstavljaju preseke stanja za koje je dat detaljniji izveštaj. Graf nam govori da je tokom rada programa zauzeće memorije uglavnom ravnomerno, bez prevelikih odstupanja. *Peak* je trenutak u kome je zabeležena najviša potrošnja memorije. Upoređivanjem preseka rezultata može se primetiti da ovaj broj ostaje isti - ```74664B``` i pojavljuje se u okvirno istom trenutku, pri početku rada programa(u drugom, trećem preseku), oko ```2.56Mi```. U nastavku izveštaja su prikazani podaci o potrošnji memorije za svaki presek, gde je u procentima prikazano korišćenje memorije od strane određenih funkcija. Najviše memorije(oko 97%) se koristi za inicijalizovanje biblioteka(```dl-init```), dok mali procenat od oko 1,3% alocira metod klase ```Game``` za crtanje table ```drawGameBoard()```, koji poziva funkcije za rad sa izlaznim tokom podataka, kao što je ```fwrite```. Na sledećoj slici je prikazan jedan deo ovog izveštaja.
 
 ![Screenshot from 2024-08-21 20-51-542](https://github.com/user-attachments/assets/ea8f05b7-4d8e-43e1-8080-d23cb6b4c597)
 
@@ -106,13 +108,13 @@ Za reprodukciju rezultata, potrebno je pokrenuti skript [run_massif.sh](valgrind
 ### 3.2. Callgrind
 *Callgrind* je alat koji generiše listu poziva funkcija korisničkog programa u vidu grafa. U osnovnim podešavanjima sakupljeni podaci sastoje se od broja izvršenih instrukcija, njihov odnos sa linijom u izvršnom kodu, odnos pozivaoc/pozvan između funkcija, kao i broj takvih poziva. Navedene informacije mogu biti korisne u procesu optimizacije programa jer je moguće uočiti delove koda koji se najviše izvršavaju i troše najviše resursa. 
 
-*Callgrind* se pokreće sledećom komandom:
+Callgrind se pokreće sledećom komandom:
 ```bash
 valgrind --tool=callgrind ./2048
 ```
 Podaci se analiziraju i zapisuju u datoteku ```callgrind.out.<pid>```. Za detaljniji i čitljiviji izveštaj, moguće je koristiti alat *KCachegrind*, koji pored ostalog pruža i grafičku vizuelizaciju dobijenih podataka.
 
-Na sledećoj slici možemo videti deo podataka iz alata *KCachegrind*. 
+Na sledećoj slici možemo videti deo podataka iz alata KCachegrind. 
 Sa leve strane se nalazi lista funkcija koja se može sortirati na različite načine tako dobivši različite informacije. Kolona ```incl.``` prikazuje procentualno ukupno vreme provedeno u funkciji i svim funkcijama koje ona poziva. U ovom primeru vidimo da program najviše vremena provodi u funkcijama ```drawGameBoard()``` i ```update()```, klase ```Game```, koje poziva funkcija ```main```. Ove funkcije su zadužene za crtanje table i njeno menjanje nakon svakog pokreta. 
 
 ![Screenshot from 2024-08-22 14-44-57](https://github.com/user-attachments/assets/21615c1e-1dc2-4e7a-93b3-a2773afdcc9b)
@@ -126,19 +128,19 @@ Još jedan način na koji se mogu sortirati dati podaci jeste po tome koliko je 
 ![Screenshot from 2024-08-22 15-21-30](https://github.com/user-attachments/assets/6b4d70ed-214c-4d24-8673-f46a04ac4341)
 
 Dodatno, *Callgrind* može i da vrši analizu upotrebe keš memorĳe, korišćenjem dodatne opcije ```--cache-sim=yes```.
-Dobijeni podaci pokazuju efikasnu upotrebu keša sa vrlo malim procentom promašaja. Nakon upoređivanja proseka rezultata nakon dužeg igranja, zaključak je da procenat promašaja na nivou *I1* ostaje približno 0.16%, na *D1* 0.1%, a na poslednjim nivoima *LLi* i *LLd* ostaje jako mali sa čak 0.01% na *LLi* i 0.1% na *LLd*. U situacijama kada se igra kraće, promašaji keša blago rastu, naviše na nivou *D1* gde dostižu i 1.1%. 
+Dobijeni podaci pokazuju efikasnu upotrebu keša sa vrlo malim procentom promašaja. Nakon upoređivanja proseka rezultata nakon dužeg igranja, zaključak je da procenat promašaja na nivou **I1** ostaje približno 0.16%, na **D1** 0.1%, a na poslednjim nivoima **LLi** i **LLd** ostaje jako mali sa čak 0.01% na **LLi** i 0.1% na **LLd**. U situacijama kada se igra kraće, promašaji keša blago rastu, naviše na nivou **D1** gde dostižu i 1.1%. 
 
 ![Screenshot from 2024-08-22 15-39-22](https://github.com/user-attachments/assets/e9784b1c-91bb-4ef5-a78a-06726ca8e71b)
 
-U direktorijumu [callgrind](valgrind/callgrind) se mogu naći izveštaji iz više instanci pokretanja alata, kao i grafici značajnih funkcija. Takođe, u fajlu [callgrind_cache_report](valgrind/callgrind/callgrind_cache_report.txt) se nalaze i više analiza upotrebe keša. <br/>
+U direktorijumu [callgrind](valgrind/callgrind) se mogu naći izveštaji iz više instanci pokretanja alata, kao i grafici značajnih funkcija. Takođe, u fajlu [callgrind_cache_report.txt](valgrind/callgrind/callgrind_cache_report.txt) se nalazi više analiza upotrebe keša. <br/>
 Za reprodukciju rezultata, potrebno je pokrenuti skript [run_callgrind.sh](valgrind/massif/run_massif.sh), koji će i otvoriti izveštaj u alatu *KCachegrind*, ukoliko je instaliran.
 
 ## 4. Statička analiza pomoću alata Cppcheck
 Statička analiza je analiza koda bez njegovog izvršavanja sa ciljem pronalaženja defekata u kodu. *Cppcheck* je alat koji se koristi za analizu C/C++ koda. On otkriva greške koje kompajleri često ne uspevaju da otkriju, kao što su problemi s pokazivačima, prekoračenja bafera, neinicijalizovane promenljive. Jednostavan je za korišćenje i nudi detaljne izveštaje o potencijalnim problemima, što ga čini korisnim alatom za poboljšanje kvaliteta i sigurnosti koda.
 
-Tokom pokretanja alata korišćene su sledeće opcije:
-```--enable=all``` - uključuje sve provere
-```--inconclusive``` - uključuje neodređena upozorenja
+Tokom pokretanja alata korišćene su sledeće opcije: <br/>
+```--enable=all``` - uključuje sve provere <br/>
+```--inconclusive``` - uključuje neodređena upozorenja <br/>
 ```--suppress=missingInclude``` - zanemaruje sve greške koje se dobijaju iz zaglavlja <br/>
 Alat je pokrenut komandom:
 ```bash
@@ -154,14 +156,14 @@ Html izveštaj je prikazan na sledećoj slici:
 ![Screenshot from 2024-08-22 16-53-16](https://github.com/user-attachments/assets/47db75eb-e329-49dc-a4e3-550517bb3f1e) <br/>
 Postoje tri neodređena upozorenja vezana za performanse i stil, koja govore da određene funkcije mogu biti označene kao **static** (```drawBarrier()``` i ```fillRandomPos()``` iz klase ```Game```), odnosno kao **const** (```update()```, funkcija klase ```Game```). Prikazano je i nekoliko upozorenja o neinicijalizovanim promenljivim iz klasa ```Game``` i ```KeyPushManager```. Postoji jedna funkcija koja je neiskorišćena - ```kbhit()``` iz klase ```Kbhit``` (o njoj je bilo reči i ranije kada se govorilo o pokrivenosti koda). Nađene su još neke greške vezana za stil i performanse programa. 
 
-Prateći rezultate, kod je izmenjen tako da reši većinu navedenih problema. Jedini problem koji nije mogao da se reši je neodređeno upozorenje da se funkcija ```Game::update()``` označi kao **const**, što govori o osobini opcije ```--inconclusive``` da nekad daje lažno negativna upozorenja. Napravljene promene u kodu se mogu videti u fajlu [changes.patch](cppcheck/changes.patch), a izveštaj nakon izmena je moguće videti u [report_improved/index.html](cppcheck/report_improved/index.html).
+Prateći rezultate, kod je izmenjen tako da reši većinu navedenih problema. Jedini problem koji nije mogao biti rešen je neodređeno upozorenje da se funkcija ```Game::update()``` označi kao **const**, što govori o osobini opcije ```--inconclusive``` da nekada daje lažno negativna upozorenja. Napravljene promene u kodu se mogu videti u fajlu [changes.patch](cppcheck/changes.patch), a izveštaj nakon izmena u [report_improved/index.html](cppcheck/report_improved/index.html).
 
 Za reprodukciju rezultata, potrebno je pokrenuti skript [run_cppcheck.sh](cppcheck/run_cppcheck.sh).
 
 ## Zaključak
 Analizom ovog projekta dolazi se do sledećih zapažanja:
-- program prolazi sve zadate jedinične testove, tako da su sve funkcionalnosti ovog projekta uspešno implementirane,
-- kod je skoro u potpunosti pokriven testovima, tako da nema neispitanih delova programa,
+- program prolazi sve zadate jedinične testove, tako da su sve funkcionalnosti ovog projekta uspešno implementirane
+- kod je skoro u potpunosti pokriven testovima, tako da nema neispitanih delova programa
 - program ravnomerno koristi memoriju, nema curenja, kao ni prekomernih alokacija
 - analizom broja instrukcija utvrđeno je da većinu vremena troše pozivi funkcija za rad sa vektorima, pa se optimizacija može vršiti kod funkcija klase ```Game```: ```update()``` i ```drawGameBoard()```, promašaji keša su minimalni
 - statička analiza programa je pokazala nekoliko propusta, kao što su postojanje neinicijalizovanih promenljivih i neupotrebljene funkcije, ali nije bilo kritičnih grešaka
