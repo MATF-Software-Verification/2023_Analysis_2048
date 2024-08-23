@@ -14,7 +14,7 @@ Hash kod commit-a: ```a788215bdd9d775579da0901db383b2ed09a0985```
 - Cppcheck - statička analiza
 
 Detaljan izveštaj o analizi projekta, kao i uputstva za pokretanje alata, mogu se naći u [ProjectAnalysisReport.md](ProjectAnalysisReport.md). <br/>
-Takođe, skriptovi za pokretanje alata su dostupni u odgovarajućim folderima.
+Za reprodukciju rezultata potrebno je instalirati navedene alate, a skriptovi za pokretanje su dostupni u odgovarajućim folderima.
 
 ## Zaključak
 Konačni zaključak je da je projekat kvalitetan, sa dobro implementiranim funkcionalnostima i vrlo dobrim performansama. <br/>
